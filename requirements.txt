@@ -8,3 +8,4 @@ Pillow
 facenet-pytorch
 opencv-python-headless
 kagglehub
+requests

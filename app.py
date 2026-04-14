@@ -5,6 +5,7 @@ from PIL import Image
 
 from model_utils import load_models, fetch_and_load_database, extract_face_and_embedding
 from frt_utils import calculate_similarity_and_margin, compute_entropy_and_certainty, compute_quality, compute_dynamic_thresholds, responsibility_score, final_decision
+from llm_utils import generate_responsibility_explanation, get_native_languages
 
 st.set_page_config(page_title="प्रज्ञा 0.1 FRT", layout="wide")
 
@@ -195,3 +196,19 @@ elif mode == "Live Face Verification":
                     st.warning("REVIEW — Borderline confidence, human verification required")
                 else:
                     st.error("REJECT — Low confidence or poor quality, identity unknown")
+
+                # Explanation Section
+                st.divider()
+                st.subheader("💡 AI Explanation")
+                
+                languages = get_native_languages()
+                lang_options = [f"{k} ({v})" for k, v in languages.items()]
+                selected_lang_full = st.selectbox("Select Language for Explanation", lang_options, index=lang_options.index("Hindi (हिन्दी)"))
+                selected_lang = selected_lang_full.split(" (")[0]
+                
+                if st.button("✨ Explain Responsibility Score"):
+                    metrics_dict = dict(zip(metrics_df["Metric"], metrics_df["Value"]))
+                    thresh_dict = dict(zip(thresh_df["Threshold"], thresh_df["Value"]))
+                    with st.spinner(f"Generating explanation in {selected_lang}..."):
+                        explanation = generate_responsibility_explanation(metrics_dict, decision_label, thresholds=thresh_dict, target_language=selected_lang)
+                        st.info(explanation)

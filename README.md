@@ -56,3 +56,18 @@ streamlit run app.py
 1. **Live Face Verification:** Upload individual images for breakdown of Margin, Entropy, Quality, and Responsibility scoring.
 2. **Database Stats:** View actively enrolled dataset profiles.
 3. **Full Dataset Analysis:** Runs a massive bulk verification loop analyzing all faces in the active dataset, calculating aggregate True Positive Accepts and identifying any Reject/Review behaviors across the dataset.
+
+## ✨ Multilingual AI Explanations (New)
+Prajñā 0.1 now features a **Multilingual AI Explanation Engine** powered by **Gemma 2 2B** (via Ollama). This feature is designed to make complex AI metrics transparent and accessible to laypeople across India.
+
+### Features
+- **Mathematical Breakdown:** Explains the specific weighted calculation `(0.7*S + 0.15*M + 0.15*U)` for every detection.
+- **Trust Analysis:** Compares the final score (R) against dynamic thresholds to explain why a decision (ACCEPT/REVIEW/REJECT) was made.
+- **22 National Languages:** Full support for all scheduled languages of India, including Hindi, Bengali, Tamil, Telugu, Marathi, and more.
+- **Deployment Ready:** Modular backend that can be easily containerized or connected to remote model endpoints.
+
+### Setup
+Ensure you have [Ollama](https://ollama.com/) installed and pull the required model:
+```bash
+ollama pull gemma2:2b
+```
