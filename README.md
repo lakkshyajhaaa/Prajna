@@ -1,58 +1,44 @@
-# प्रज्ञा (Prajñā) 0.3
-## Responsibility-Guided Hierarchical Inference Framework
+# Prajna Framework (प्रज्ञा) 0.3
+## Zero-Knowledge, Hierarchical Biometric Inference
 
-> *"AI should not only make predictions. It should decide whether its predictions deserve to be trusted — and how much intelligence to spend before deciding."*
+> *"AI should not only make predictions. It should decide whether its predictions deserve to be trusted — and how much intelligence to spend before deciding, all while rigorously protecting user privacy."*
 
 ---
 
-## What is Prajñā 0.3?
+## 🚀 The Zero-Knowledge Evolution
 
-Prajñā 0.3 is a research-grade, governance-first face recognition system. It extends the adaptive uncertainty-awareness of 0.2 with a **two-stage hierarchical inference pipeline** driven by a routing score that determines how much compute to invest in each decision.
+Prajna 0.3 has been completely re-architected into a **Stateless, Zero-Knowledge System** backed by a modern, ultra-premium React frontend. 
+
+The server **no longer stores your face, your identity, or your biometric vectors.** Instead, we have introduced the **Biometric Device Wallet**. When you enroll, your facial vectors are extracted mathematically, returned to your browser, and securely stored in your local `localStorage`. 
+
+Every time you verify your identity, your browser temporarily transmits your biometric token alongside your photo. The server calculates the similarities, makes a routing decision, and immediately destroys all data from its memory.
+
+### Key Upgrades
+- **React + FastAPI Stack**: A blistering fast, glassmorphic UI built on Vite and React.
+- **Biometric Device Wallet**: Complete data sovereignty. You own your tokens.
+- **Dynamic Routing Explanations**: Beautiful, real-time AI reasoning logs that tell you exactly *why* a decision was made, with explicit matched identity tracking.
+- **Legal Safeguards**: Integrated experimental disclaimers, terms of service, and privacy policies.
+
+---
+
+## 🧠 Two-Stage Hierarchical Inference
+
+Prajna 0.3 extends the adaptive uncertainty-awareness of previous versions with a **two-stage hierarchical inference pipeline** driven by a routing score. 
 
 The key question the system answers at every query:
 > *"Is Stage-1's confidence sufficient to decide, or should I spend Stage-2 compute?"*
 
----
+### Architecture Flow
 
-## Architecture
+1. **The Quality Gate**: The system first evaluates the composite quality (Q) of the image. If `Q < 0.20`, it executes a hard reject before wasting compute.
+2. **Stage 1 (MobileFaceNet)**: An ultra-lightweight, blazing-fast neural network generates an initial embedding and calculates a **Routing Score (ρ)**.
+3. **The Routing Engine**:
+   - If `ρ ≥ ρ_accept`, the system terminates immediately with an **ACCEPT**.
+   - If `ρ ≤ ρ_reject`, the system terminates immediately with a **REJECT**.
+   - If `ρ` falls in the *escalation band*, the system forwards the task to Stage 2.
+4. **Stage 2 (InceptionResnetV1)**: A heavy-duty, deep-scan neural network computes a highly detailed 512-dimensional embedding to resolve ambiguity, resulting in a final **ACCEPT, REVIEW, or REJECT**.
 
-```
-                       PIL Image
-                           │
-                    ┌──────▼──────┐
-                    │ Quality Gate │   Q < 0.20 → Hard REJECT
-                    └──────┬──────┘
-                           │
-              ┌────────────▼────────────┐
-              │         Stage 1          │
-              │  MobileFaceNet (ONNX)    │
-              │  or IRESNET-112px fallback│
-              │                          │
-              │  Routing Score:          │
-              │  ρ = R · Q^κ · (1−λA)   │
-              └────────────┬────────────┘
-                           │
-              ┌────────────▼────────────┐
-              │    Routing Decision      │
-              │  ρ ≥ 0.78 → ACCEPT      │
-              │  ρ ≤ 0.42 → REJECT      │
-              │  else → ESCALATE         │
-              └─────┬──────────┬────────┘
-              ACCEPT│          │ESCALATE/REJECT
-              ─────▼          ▼──────────────
-           Terminal        ┌──────────────────┐
-           Stage-1         │     Stage 2       │
-                           │ InceptionResnetV1 │
-                           │ /VGGFace2 (512-d) │
-                           └────────┬──────────┘
-                                    │
-                           ┌────────▼──────────┐
-                           │  Final Decision    │
-                           │ ACCEPT/REVIEW/REJECT│
-                           └───────────────────┘
-```
-
-### Routing Score Formula
+### The Routing Formula
 
 ```
 ρ = R · φ(Q) · ψ(A)
@@ -65,135 +51,34 @@ where:
   A      = top-2/top-1 similarity ratio (identity ambiguity) ∈ [0,1]
 ```
 
-Routing thresholds:
-- `ρ_accept = 0.78` — terminate with ACCEPT (configurable in sidebar)
-- `ρ_reject = 0.42` — terminate with REJECT
-
 ---
 
-## Version History
+## 🛠 Getting Started
 
-| Version | Key Addition |
-|---------|-------------|
-| 0.1 | MTCNN + InceptionResnetV1, static thresholds, open-set rejection, responsibility R |
-| 0.2 | Adaptive thresholds (entropy + quality + ambiguity), composite quality scoring, enrollment DB, calibration analysis, multilingual explanations |
-| **0.3** | **Two-stage hierarchy, routing score ρ, Stage-1 MobileFaceNet, dual DB, compute savings accounting, 6 new experiments, pipeline analytics dashboard** |
+### Prerequisites
+- Node.js (v18+)
+- Python (3.9+)
 
----
+### Installation & Running
 
-## New in 0.3
+The easiest way to boot the entire stack (both the React frontend and the FastAPI backend) is to run the automated startup script:
 
-- **`core/stage1_model.py`** — MobileFaceNet ONNX wrapper with InceptionResnetV1 fallback
-- **`core/database_manager.py`** — Dual-stage enrollment DB (`database/stage1/` + `database/stage2/`)
-- **`core/routing.py`** — Routing score ρ formula, routing decisions, `RoutingRecord`
-- **`core/hierarchy.py`** — `hierarchical_inference()` orchestrator, `PipelineRecord`
-- **`utils/logging_utils_v3.py`** — Extended audit logging with per-stage metrics
-- **`utils/hierarchy_viz.py`** — Sankey routing flow, ρ gauges, ΔR histograms, stage scatter
-- **`evaluation/exp_hierarchy.py`** — 6 hierarchy experiments
-- **`tests/test_routing.py`** — 23 routing engine tests (all passing)
-- **`tests/test_database_manager.py`** — 9 database manager tests (all passing)
-
----
-
-## Streamlit Tabs
-
-| Tab | Description |
-|-----|-------------|
-| 🔍 Verify | Hierarchical face verification with routing gauges, decision path, stage metrics |
-| 📋 Database | Dual-stage identity enrollment + database viewer |
-| 🔬 Analysis | 5 original 0.2 experiments + 6 new hierarchy experiments |
-| 🧭 Pipeline | Live routing analytics: Sankey flow, ρ distribution, ΔR histogram, compute chart |
-| 📁 Audit Log | Combined 0.2 decision log + 0.3 pipeline log with CSV/JSON export |
-
----
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-streamlit run app.py
+**Windows:**
+```bat
+./build_and_run.bat
 ```
 
-To use ONNX MobileFaceNet (optional — faster Stage-1):
-1. Download a MobileFaceNet-512 ONNX checkpoint
-2. Place at `models/mobilefacenet.onnx`
-3. Set `MOBILEFACENET_ONNX_PATH` env var if using a custom path
+This will automatically:
+1. Install Python dependencies (`pip install -r requirements.txt`)
+2. Install Node dependencies (`cd frontend && npm install`)
+3. Build the Vite production bundle (`npm run build`)
+4. Launch the FastAPI Uvicorn server (`uvicorn main:app --host 0.0.0.0 --port 8000`)
 
-Without the ONNX model, the system automatically uses InceptionResnetV1 at 112px as Stage-1 fallback.
-
----
-
-## Governance Philosophy
-
-The routing score ρ is the system's answer to:
-> *"Does this stage's evidence justify a terminal decision, or should I invest more compute?"*
-
-Key design principles:
-- **No opaque decisions** — every routing decision has a logged derivation
-- **Explainable escalation** — ESCALATE always comes with human-readable reasons
-- **Compute accountability** — every decision records `compute_units` (Stage-2 = 1.0)
-- **Graceful degradation** — Stage-1 DB empty → degrades to Stage-2-only seamlessly
-- **Open-set rejection preserved** — stranger floor from 0.1/0.2 is enforced at every stage
+Once the server boots, simply open your browser and navigate to:
+**`http://localhost:8000/`**
 
 ---
 
-## Limitations (Documented)
+## 🛡 Security & Privacy Notice
 
-| Limitation | Mitigation |
-|-----------|------------|
-| Routing thresholds (ρ_accept, ρ_reject) are calibrated heuristically | Experiment 6 ablation sweep; recalibrate on held-out data |
-| Stage-1 and Stage-2 similarity scores are not directly comparable | Each stage queries its own embedding DB; ΔR is an approximation |
-| Experiment Q scores use placeholder (0.70) when only embeddings stored | Acknowledged in every experiment note field |
-| MobileFaceNet fallback (112px IRESNET) is not a true Stage-1 model | Users can supply a real MobileFaceNet ONNX for production |
-| System is not certified for production use | Research prototype only |
-
----
-
-## Project Structure
-
-```
-Prajna 0.1/
-├── app.py                          # Streamlit application (0.3)
-├── frt_utils.py                    # 0.1 core logic (unchanged)
-├── model_utils.py                  # 0.2 model/DB utilities (unchanged)
-├── llm_utils.py                    # Multilingual explanations (unchanged)
-├── requirements.txt                # All dependencies
-├── MIGRATION_PLAN.md               # 0.2 → 0.3 migration documentation
-│
-├── core/
-│   ├── stage1_model.py             # [NEW 0.3] MobileFaceNet wrapper
-│   ├── database_manager.py         # [NEW 0.3] Dual-stage DB
-│   ├── routing.py                  # [NEW 0.3] ρ score + routing decisions
-│   ├── hierarchy.py                # [NEW 0.3] Pipeline orchestrator
-│   ├── decision.py                 # 0.2 decision engine (unchanged)
-│   ├── quality.py                  # 0.2 quality scoring (unchanged)
-│   ├── thresholds.py               # 0.2 adaptive thresholds (unchanged)
-│   ├── metrics.py                  # 0.2 metrics (unchanged)
-│   └── calibration.py             # 0.2 calibration (unchanged)
-│
-├── utils/
-│   ├── logging_utils_v3.py         # [NEW 0.3] Extended audit logger
-│   ├── hierarchy_viz.py            # [NEW 0.3] Routing visualizations
-│   ├── logging_utils.py            # 0.2 audit logger (unchanged)
-│   ├── visualization.py            # 0.2 charts (unchanged)
-│   └── language.py                 # Language utilities (unchanged)
-│
-├── evaluation/
-│   ├── exp_hierarchy.py            # [NEW 0.3] 6 hierarchy experiments
-│   └── experiments.py             # 0.2 experiments (unchanged)
-│
-├── tests/
-│   ├── test_routing.py             # [NEW 0.3] 23 routing tests
-│   └── test_database_manager.py    # [NEW 0.3] 9 DB tests
-│
-├── database/
-│   ├── stage1/                     # [NEW 0.3] MobileFaceNet enrollments
-│   └── stage2/                     # [NEW 0.3] IRESNET enrollments
-│
-├── models/
-│   └── mobilefacenet.onnx          # [OPTIONAL] Download separately
-│
-└── logs/
-    ├── audit_YYYYMMDD.jsonl        # 0.2 per-decision audit
-    └── pipeline_YYYYMMDD.jsonl     # [NEW 0.3] Per-pipeline audit
-```
+This software is an experimental release. While the zero-knowledge architecture ensures that the server does not persist biometric templates to disk, data is still transmitted over HTTP/HTTPS during the active verification session. Do not use this framework in production without proper security audits, TLS encryption, and legal compliance reviews.
