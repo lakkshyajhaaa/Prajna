@@ -10,7 +10,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={{ background: 'rgba(10, 10, 10, 0.8)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
       <Link to="/" className="nav-brand">Prajna 0.2</Link>
       <div className="nav-links">
         <Link to="/" className={isActive('/')}>
@@ -20,12 +20,12 @@ const Navbar = () => {
         </Link>
         <Link to="/verify" className={isActive('/verify')}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Fingerprint size={16} /> Verify
+            <Fingerprint size={16} /> Verify Identity
           </span>
         </Link>
         <Link to="/database" className={isActive('/database')}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Database size={16} /> Database
+            <Database size={16} /> Manage Profiles
           </span>
         </Link>
       </div>

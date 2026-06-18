@@ -1,5 +1,6 @@
 import React from 'react';
 import { GitCommit, Activity, Cpu, Sun, ShieldCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Timeline = () => {
   const versions = [
@@ -30,10 +31,15 @@ const Timeline = () => {
   ];
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '2rem' }}>
-      <div style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>SYSTEM EVOLUTION</h2>
-        <p style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '0.95rem' }}>
+    <motion.div 
+      style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '2rem' }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div style={{ marginBottom: '4rem', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '3.5rem', marginBottom: '1rem', color: 'var(--text-primary)', letterSpacing: '2px', textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>SYSTEM EVOLUTION</h2>
+        <p style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '1rem' }}>
           Chronological record of Prajna framework architecture.
         </p>
       </div>
@@ -54,13 +60,19 @@ const Timeline = () => {
           const isActive = item.version === 'v0.2';
           
           return (
-            <div key={item.version} style={{ 
-              display: 'flex', 
-              gap: '2rem', 
-              marginBottom: index === versions.length - 1 ? '0' : '4rem',
-              position: 'relative',
-              zIndex: 1
-            }}>
+            <motion.div 
+              key={item.version} 
+              style={{ 
+                display: 'flex', 
+                gap: '2rem', 
+                marginBottom: index === versions.length - 1 ? '0' : '4rem',
+                position: 'relative',
+                zIndex: 1
+              }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.2, type: 'spring', stiffness: 200 }}
+            >
               {/* Timeline Node */}
               <div style={{ 
                 width: '50px', 
@@ -80,8 +92,11 @@ const Timeline = () => {
               {/* Content Panel */}
               <div className="panel" style={{ 
                 flex: 1, 
-                borderColor: isActive ? 'var(--accent)' : 'var(--border-color)',
-                borderLeftWidth: isActive ? '4px' : '1px'
+                borderColor: isActive ? 'var(--accent)' : 'rgba(255,255,255,0.1)',
+                borderLeftWidth: isActive ? '4px' : '1px',
+                background: isActive ? 'rgba(20,20,20,0.8)' : 'rgba(10,10,10,0.5)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: isActive ? '0 10px 40px rgba(0,0,0,0.5)' : 'none'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                   <div>
@@ -124,11 +139,11 @@ const Timeline = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
