@@ -92,12 +92,13 @@ const Verify = () => {
             {icon}
           </div>
           <div>
-            <h2 style={{ fontSize: '2rem', margin: 0, color: colorClass }}>{result.decision}</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              {isAccept ? `Identity: ${result.identity}` : 
-               isReview ? 'Human verification required' : 
-               'Access denied / Stranger'}
-            </p>
+            <h2 style={{ fontSize: '2rem', margin: 0, color: colorClass, letterSpacing: '1px' }}>{result.decision}</h2>
+            <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span className="mono-label" style={{ color: 'var(--text-secondary)' }}>MATCHED IDENTITY:</span>
+              <span style={{ color: 'white', fontWeight: 600, fontFamily: 'var(--font-mono)', fontSize: '1.1rem', textTransform: 'uppercase' }}>
+                {result.identity}
+              </span>
+            </div>
           </div>
         </div>
 
