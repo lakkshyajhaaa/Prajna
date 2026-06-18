@@ -1,3 +1,12 @@
+---
+title: Prajna
+emoji: 🦀
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+---
+
 # Prajna Framework (प्रज्ञा) 0.2
 ## Zero-Knowledge, Hierarchical Biometric Inference
 
