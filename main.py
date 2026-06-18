@@ -32,13 +32,14 @@ mtcnn = None
 resnet = None
 stage1_state = None
 
-@app.on_event("startup")
-async def startup_event():
+def lazy_load_models():
     global models_loaded, mtcnn, resnet, stage1_state
-    mtcnn, resnet = load_models()
-    stage1_state = load_stage1_model()
-    # Server-side databases are NO LONGER LOADED
-    models_loaded = True
+    if not models_loaded:
+        print("Loading AI models lazily on first request...")
+        mtcnn, resnet = load_models()
+        stage1_state = load_stage1_model()
+        models_loaded = True
+        print("AI models loaded into memory!")
 
 @app.get("/api/status")
 async def get_status():
@@ -57,6 +58,7 @@ async def get_identities():
 
 @app.post("/api/verify")
 async def verify(file: UploadFile = File(...), client_db: str = Form(None)):
+    lazy_load_models()
     contents = await file.read()
     try:
         image = Image.open(io.BytesIO(contents)).convert("RGB")
@@ -127,6 +129,7 @@ async def feedback(data: Feedback):
 
 @app.post("/api/enroll")
 async def enroll(name: str = Form(...), files: list[UploadFile] = File(...)):
+    lazy_load_models()
     contents = await files[0].read()
     try:
         img = Image.open(io.BytesIO(contents)).convert("RGB")
