@@ -58,7 +58,11 @@ async def get_identities():
 @app.post("/api/verify")
 async def verify(file: UploadFile = File(...), client_db: str = Form(None)):
     contents = await file.read()
-    image = Image.open(io.BytesIO(contents)).convert("RGB")
+    try:
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
+    except Exception as e:
+        return {"decision": "ERROR", "identity": "Unknown", "is_stranger": True, "hard_rejected_at_gate": True, "review_reasons": [f"Image load error: {str(e)}"]}
+    
     
     db_s1 = {}
     db_s2 = {}
@@ -124,9 +128,15 @@ async def feedback(data: Feedback):
 @app.post("/api/enroll")
 async def enroll(name: str = Form(...), files: list[UploadFile] = File(...)):
     contents = await files[0].read()
-    img = Image.open(io.BytesIO(contents)).convert("RGB")
+    try:
+        img = Image.open(io.BytesIO(contents)).convert("RGB")
+    except Exception as e:
+        return {"success": False, "message": f"Invalid image format. Please upload a standard image file (JPEG, PNG). Error: {str(e)}"}
     
-    result = extract_face_full(img, mtcnn, resnet)
+    try:
+        result = extract_face_full(img, mtcnn, resnet)
+    except Exception as e:
+        return {"success": False, "message": f"Server processing error: {str(e)}"}
     if result is None:
         return {"success": False, "message": "No face detected in the image."}
         

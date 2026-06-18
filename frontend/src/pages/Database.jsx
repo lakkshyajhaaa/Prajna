@@ -49,6 +49,9 @@ const Database = () => {
         method: 'POST',
         body: formData,
       });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       
       if (data.success) {
@@ -77,7 +80,7 @@ const Database = () => {
     } catch (err) {
       setEnrollResult({
         type: 'error',
-        message: 'Network error connecting to the server.'
+        message: `Network/Server Error: ${err.message}`
       });
     } finally {
       setIsEnrolling(false);
