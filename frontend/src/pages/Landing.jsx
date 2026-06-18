@@ -72,12 +72,12 @@ const Landing = () => {
             MobileFaceNet for extreme speed. InceptionResnetV1 for complex escalations. The perfect synergy.
           </p>
         </div>
-      </div>
+      </motion.div>
       
       <div style={{ marginTop: '6rem', width: '100%', borderTop: '1px solid var(--border-color)', paddingTop: '2rem' }}>
         <Timeline />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
