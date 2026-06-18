@@ -1,35 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Fingerprint, Terminal, Crosshair, Cpu } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Timeline from './Timeline';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+};
 
 const Landing = () => {
   return (
-    <div className="hero-container">
-      <div className="hero-pill">
+    <motion.div 
+      className="hero-container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div className="hero-pill" variants={itemVariants}>
         <span className="status-indicator status-green"></span> SYSTEM ONLINE // PRAJNA v0.2
-      </div>
+      </motion.div>
       
-      <h1 className="hero-title">
+      <motion.h1 className="hero-title" variants={itemVariants}>
         IDENTITY<br/>
         VERIFICATION<br/>
         FRAMEWORK
-      </h1>
+      </motion.h1>
       
-      <p className="hero-subtitle">
+      <motion.p className="hero-subtitle" variants={itemVariants}>
         A responsibility-guided hierarchical inference engine. We allocate compute dynamically based on image ambiguity, ensuring zero compromise on latency and maximum security against unauthorized access.
-      </p>
+      </motion.p>
       
-      <div className="btn-group">
+      <motion.div className="btn-group" variants={itemVariants}>
         <Link to="/verify" className="btn btn-primary">
           INITIATE VERIFY <ArrowRight size={18} />
         </Link>
         <Link to="/database" className="btn btn-secondary">
           ACCESS VAULT <Fingerprint size={18} />
         </Link>
-      </div>
+      </motion.div>
       
-      <div className="grid-3" style={{ width: '100%', marginTop: '2rem' }}>
+      <motion.div className="grid-3" style={{ width: '100%', marginTop: '2rem' }} variants={itemVariants}>
         <div>
           <Crosshair size={24} color="var(--accent)" style={{ marginBottom: '1.5rem' }} />
           <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>ADAPTIVE ROUTING</h3>
