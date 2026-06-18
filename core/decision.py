@@ -177,7 +177,7 @@ def make_decision(
             quality=quality,
             predicted_identity=predicted_identity,
             stranger_floor=stranger_floor,
-            threshold_explanation=threshold_explanation,
+            threshold_explanation=f"Stranger Alert: The highest similarity was with '{predicted_identity}' at {top1_sim:.3f}, which is below the absolute stranger floor of {stranger_floor}. Access denied.",
         )
 
     # --- Step 2: ACCEPT ---
@@ -196,7 +196,7 @@ def make_decision(
             quality=quality,
             predicted_identity=predicted_identity,
             stranger_floor=stranger_floor,
-            threshold_explanation=threshold_explanation,
+            threshold_explanation=f"Identity verified as '{predicted_identity}'. The confidence score ({R:.3f}) exceeded the acceptance threshold ({tr.t_accept:.3f}).",
         )
 
     # --- Step 3: REVIEW ---
@@ -216,7 +216,7 @@ def make_decision(
             quality=quality,
             predicted_identity=predicted_identity,
             stranger_floor=stranger_floor,
-            threshold_explanation=threshold_explanation,
+            threshold_explanation=f"Potential match with '{predicted_identity}', but the confidence score ({R:.3f}) is in the uncertain band. Sent to human review queue.",
         )
 
     # --- Step 4: REJECT (insufficient R score) ---
@@ -237,5 +237,5 @@ def make_decision(
         quality=quality,
         predicted_identity=predicted_identity,
         stranger_floor=stranger_floor,
-        threshold_explanation=threshold_explanation,
+        threshold_explanation=f"Access denied. Highest similarity was '{predicted_identity}', but the confidence score ({R:.3f}) was too low to even warrant a human review.",
     )

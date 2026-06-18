@@ -303,11 +303,19 @@ def explain_routing(record: RoutingRecord) -> str:
         )
     else:
         reasons_str = "; ".join(record.escalation_reasons[:2]) if record.escalation_reasons else "combined uncertainty"
-        return (
-            f"{stage_name} routing score {record.routing_score:.3f} in escalation band "
-            f"({record.rho_reject:.2f}–{record.rho_accept:.2f}). "
-            f"Reason: {reasons_str}. Escalating to Stage {record.stage + 1}."
-        )
+        
+        if record.stage == 1:
+            return (
+                f"{stage_name} routing score {record.routing_score:.3f} in escalation band "
+                f"({record.rho_reject:.2f}–{record.rho_accept:.2f}). "
+                f"Reason: {reasons_str}. Escalating to deep-scan neural network (Stage 2)."
+            )
+        else:
+            return (
+                f"{stage_name} routing score {record.routing_score:.3f} in escalation band "
+                f"({record.rho_reject:.2f}–{record.rho_accept:.2f}). "
+                f"Reason: {reasons_str}. Flagged for manual human review."
+            )
 
 
 def compute_responsibility_delta(R1: float, R2: float) -> dict:
