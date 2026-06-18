@@ -36,7 +36,7 @@ const Verify = () => {
     formData.append('client_db', storedIdentity);
     
     try {
-      const res = await fetch('http://localhost:8000/api/verify', {
+      const res = await fetch('/api/verify', {
         method: 'POST',
         body: formData,
       });

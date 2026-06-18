@@ -45,7 +45,7 @@ const Database = () => {
     formData.append('files', selectedFile);
 
     try {
-      const res = await fetch('http://localhost:8000/api/enroll', {
+      const res = await fetch('/api/enroll', {
         method: 'POST',
         body: formData,
       });

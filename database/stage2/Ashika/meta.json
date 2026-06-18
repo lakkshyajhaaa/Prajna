@@ -1,0 +1,19 @@
+{
+  "person_name": "Ashika",
+  "enrolled_at": "2026-06-18T11:55:55.358165+00:00",
+  "n_accepted": 1,
+  "n_rejected": 0,
+  "accepted_images": [
+    "img_001.jpg"
+  ],
+  "rejected_images": [],
+  "stage1_model": "InceptionResnetV1-112px-Fallback",
+  "stage2_model": "InceptionResnetV1/VGGFace2",
+  "log": [
+    {
+      "image": "img_001.jpg",
+      "accepted": true,
+      "quality": 0.7999945996062401
+    }
+  ]
+}
