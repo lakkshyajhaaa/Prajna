@@ -30,13 +30,13 @@ const Landing = () => {
       </motion.div>
       
       <motion.h1 className="hero-title" variants={itemVariants}>
+        SMART<br/>
         IDENTITY<br/>
-        VERIFICATION<br/>
-        FRAMEWORK
+        VERIFICATION
       </motion.h1>
       
       <motion.p className="hero-subtitle" variants={itemVariants}>
-        A responsibility-guided hierarchical inference engine. We allocate compute dynamically based on image ambiguity, ensuring zero compromise on latency and maximum security against unauthorized access.
+        A privacy-first identity verification system. We use a smart, two-step process to securely recognize faces, ensuring blazing fast speeds while keeping your data 100% private.
       </motion.p>
       
       <motion.div className="btn-group" variants={itemVariants}>
@@ -51,9 +51,9 @@ const Landing = () => {
       <motion.div className="grid-3" style={{ width: '100%', marginTop: '2rem' }} variants={itemVariants}>
         <div>
           <Crosshair size={24} color="var(--accent)" style={{ marginBottom: '1.5rem' }} />
-          <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>ADAPTIVE ROUTING</h3>
+          <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>SMART ROUTING</h3>
           <p className="mono-label" style={{ color: 'var(--text-secondary)', textTransform: 'none' }}>
-            Bypasses heavy neural networks when confidence is absolute. Analyzes ambiguity and margin in real-time.
+            Skips heavy processing when it's absolutely sure. Only performs deep scans when it encounters difficult or blurry images.
           </p>
         </div>
         
@@ -67,9 +67,9 @@ const Landing = () => {
         
         <div>
           <Cpu size={24} color="var(--accent)" style={{ marginBottom: '1.5rem' }} />
-          <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>DUAL ARCHITECTURE</h3>
+          <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>TWO-STEP VERIFICATION</h3>
           <p className="mono-label" style={{ color: 'var(--text-secondary)', textTransform: 'none' }}>
-            MobileFaceNet for extreme speed. InceptionResnetV1 for complex escalations. The perfect synergy.
+            Quick Scan for extreme speed. Deep Scan for careful, detailed analysis. The perfect balance.
           </p>
         </div>
       </motion.div>

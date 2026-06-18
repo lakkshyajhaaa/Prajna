@@ -206,19 +206,19 @@ const Verify = () => {
         
         <div className="grid grid-2">
           <div>
-            <h4 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Routing Details</h4>
+            <h4 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Verification Steps</h4>
             <ul className="feature-list">
-              <li><strong>Stages Run:</strong> {result.stages_run?.join(' -> ')}</li>
-              <li><strong>Terminal Stage:</strong> {result.terminal_stage}</li>
-              <li><strong>S1 Action:</strong> {result.routing_action_s1 || 'N/A'}</li>
-              <li><strong>S1 Routing Score:</strong> {result.routing_score_s1?.toFixed(4) || 'N/A'}</li>
+              <li><strong>Checks Performed:</strong> {result.stages_run?.map(s => s === 1 ? 'Quick Scan' : 'Deep Scan').join(' -> ')}</li>
+              <li><strong>Final Check Used:</strong> {result.terminal_stage === 1 ? 'Quick Scan' : 'Deep Scan'}</li>
+              <li><strong>Quick Scan Result:</strong> {result.routing_action_s1 || 'N/A'}</li>
+              <li><strong>Initial Confidence:</strong> {result.routing_score_s1?.toFixed(4) || 'N/A'}</li>
             </ul>
           </div>
           <div>
-            <h4 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Performance</h4>
+            <h4 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>System Speed</h4>
             <ul className="feature-list">
-              <li><strong>Compute Units:</strong> {result.compute_units?.toFixed(2)}</li>
-              <li><strong>Latency:</strong> {result.total_latency_ms?.toFixed(1)} ms</li>
+              <li><strong>Processing Power Used:</strong> {result.compute_units?.toFixed(2)}</li>
+              <li><strong>Time Taken:</strong> {result.total_latency_ms?.toFixed(1)} ms</li>
             </ul>
           </div>
         </div>
